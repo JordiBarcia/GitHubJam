@@ -61,14 +61,14 @@ public class Movement : MonoBehaviour
     void GetInput() 
     {
         xInput = Input.GetAxis("Horizontal");
-        jumpIsReleased = Input.GetButtonUp("Jump");
-        dashInputDown = Input.GetKeyDown(KeyCode.LeftControl);
-        dashInputUp = Input.GetKeyUp(KeyCode.LeftControl);
+        jumpIsReleased = Input.GetKeyUp(KeyCode.X);
+        dashInputDown = Input.GetKeyDown(KeyCode.C);
+        dashInputUp = Input.GetKeyUp(KeyCode.C);
     }
 
     private void HandleJump()
     {
-        if (Input.GetButtonDown("Jump") && grounded) 
+        if (Input.GetKeyDown(KeyCode.X) && grounded) 
         {
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
 

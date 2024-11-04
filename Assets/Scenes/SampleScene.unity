@@ -149,8 +149,8 @@ Transform:
   m_GameObject: {fileID: 214848071}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.491, z: 0}
-  m_LocalScale: {x: 2.6125, y: 0.1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.51, z: 0}
+  m_LocalScale: {x: 2.6125, y: 0.22874999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2100855423}
@@ -696,7 +696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &671188559
 Transform:
   m_ObjectHideFlags: 0
@@ -1429,6 +1429,7 @@ GameObject:
   - component: {fileID: 2100855423}
   - component: {fileID: 2100855422}
   - component: {fileID: 2100855424}
+  - component: {fileID: 2100855425}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -1452,7 +1453,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8d28d92f6a16e114c911a4cdd4102ee8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1496,7 +1497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 2100855422}
   groundSpeed: 7
-  groundDecay: 0.048
+  groundDecay: 0.1
   groundCheck: {fileID: 214848073}
   groundMask:
     serializedVersion: 2
@@ -1505,6 +1506,23 @@ MonoBehaviour:
   dashPower: 24
   dashTime: 0.2
   dashCooldown: 1
+--- !u!114 &2100855425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100855421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc63d5c19a7fd4b49a53c960c97aed47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 2100855422}
+  isParrying: 0
+  parryTime: 0.5
+  parryCooldown: 0.7
+  parryPower: 10
 --- !u!1 &2117005055
 GameObject:
   m_ObjectHideFlags: 0
