@@ -10,6 +10,8 @@ public class Movement : MonoBehaviour
 
     float xInput;
     bool jumpIsReleased;
+    bool dashInputDown;
+    bool dashInputUp;
 
     [Header("Movement Settings")]
     public float groundSpeed;
@@ -20,22 +22,37 @@ public class Movement : MonoBehaviour
     public LayerMask groundMask;
     bool grounded;
 
+    [Header("Jump Settings")]
     [Range(5, 15)] public float jumpSpeed;
+
+    [Header("Dash Settings")]
+    public float dashPower;
+    public float dashTime;
+    public float dashCooldown;
+    bool canDash = true;
+    bool isDashing;
+    float auxDashCooldown;
+
 
     private void Start()
     {
-        
+        auxDashCooldown = dashCooldown;
     }
 
     private void Update()
     {
+        if (isDashing) {return; }
         GetInput();
         HandleJump();
-        
+        if (dashInputDown && canDash) 
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     private void FixedUpdate()
     {
+        if (isDashing) { return; }
         MoveWithInput();
         CheckGround();
         ApplyFriction();
@@ -45,6 +62,8 @@ public class Movement : MonoBehaviour
     {
         xInput = Input.GetAxis("Horizontal");
         jumpIsReleased = Input.GetButtonUp("Jump");
+        dashInputDown = Input.GetKeyDown(KeyCode.LeftControl);
+        dashInputUp = Input.GetKeyUp(KeyCode.LeftControl);
     }
 
     private void HandleJump()
@@ -81,5 +100,19 @@ public class Movement : MonoBehaviour
     void CheckGround() 
     {
         grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+    }
+
+    private IEnumerator Dash() 
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = body.gravityScale;
+        body.gravityScale = 0;
+        body.velocity = new Vector2(transform.localScale.x * dashPower, 0f);
+        yield return new WaitForSeconds(dashTime);
+        body.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 }

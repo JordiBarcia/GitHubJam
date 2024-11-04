@@ -793,6 +793,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   jumpSpeed: 14
+  dashPower: 24
+  dashTime: 0.2
+  dashCooldown: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
