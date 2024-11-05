@@ -10,12 +10,14 @@ public class Parry : MonoBehaviour
     public float parryTime = 0.2f;
     public float parryCooldown = 0.3f;
     public float parryPower;
+    [SerializeField] Movement move;
 
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Z) && canParry)
+        if (Input.GetKey(KeyCode.Z) && canParry && !move.GetComponent<Movement>().grounded)
         {
+            Debug.Log("Momento parry");
             StartCoroutine(ParryCoroutine());
         }
     }
@@ -23,7 +25,6 @@ public class Parry : MonoBehaviour
     {
         canParry = false;
         isParrying = true;
-        Debug.Log("Parring");
         yield return new WaitForSeconds(parryTime);
         isParrying = false;
         yield return new WaitForSeconds(parryCooldown);
@@ -33,7 +34,7 @@ public class Parry : MonoBehaviour
     {
         if (isParrying && collision.CompareTag("Enemy"))
         {
-            body.velocity = new Vector2(transform.localScale.x * parryPower, transform.localScale.y * parryPower);
+            body.velocity = new Vector2(transform.localScale.x, transform.localScale.y * parryPower);
         }
     }
 }
