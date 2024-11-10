@@ -15,7 +15,7 @@ public class Parry : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Z) && canParry && !move.GetComponent<Movement>().grounded)
+        if (Input.GetKey(KeyCode.C) && canParry && !move.GetComponent<Movement>().grounded)
         {
             Debug.Log("Momento parry");
             StartCoroutine(ParryCoroutine());

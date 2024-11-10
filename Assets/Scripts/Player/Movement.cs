@@ -81,8 +81,8 @@ public class Movement : MonoBehaviour
     {
         xInput = Input.GetAxis("Horizontal");
         jumpIsReleased = Input.GetKeyUp(KeyCode.X);
-        dashInputDown = Input.GetKeyDown(KeyCode.C);
-        dashInputUp = Input.GetKeyUp(KeyCode.C);
+        dashInputDown = Input.GetKeyDown(KeyCode.Z);
+        dashInputUp = Input.GetKeyUp(KeyCode.Z);
     }
     void MoveWithInput() 
     {
