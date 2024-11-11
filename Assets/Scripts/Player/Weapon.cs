@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.XR;
 
 public class Weapon : MonoBehaviour
 {
     [SerializeField] Movement move;
+    [SerializeField] Rigidbody2D body;
     public GameObject weapon;
     public float duration;
     public float cooldown;
@@ -32,6 +34,7 @@ public class Weapon : MonoBehaviour
         weapon.SetActive(true);
         canAttack = false;
         isAttacking = true;
+        body.velocity = new Vector2(transform.localScale.x , transform.localScale.y);
         Debug.Log("Attacking");
         yield return new WaitForSeconds(duration);
         weapon.SetActive(false);

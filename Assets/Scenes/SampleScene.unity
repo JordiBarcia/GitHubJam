@@ -2469,6 +2469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 2100855424}
+  body: {fileID: 2100855422}
   weapon: {fileID: 1825341592}
   duration: 0.1
   cooldown: 0.5
