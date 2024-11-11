@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class Movement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D body;
+    [SerializeField] Weapon weapon;
 
     float xInput;
     bool jumpIsReleased;
@@ -48,8 +49,6 @@ public class Movement : MonoBehaviour
     public float wallJumpCooldown = 0.2f; // Cooldown para evitar escalada
     private bool canWallJump = true; // Control para permitir o no el wall jump
 
-
-
     private void Start()
     {
         auxDashCooldown = dashCooldown;
@@ -86,7 +85,7 @@ public class Movement : MonoBehaviour
     }
     void MoveWithInput() 
     {
-        if (Mathf.Abs(xInput) > 0)
+        if (Mathf.Abs(xInput) > 0 && !weapon.isAttacking)
         {
             body.velocity = new Vector2(xInput * groundSpeed, body.velocity.y);
             float direction = Mathf.Sign(xInput);

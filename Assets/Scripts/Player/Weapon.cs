@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
     public float duration;
     public float cooldown;
     bool canAttack;
-    bool isAttacking;
+    public bool isAttacking;
 
     private void Start()
     {
@@ -34,7 +34,6 @@ public class Weapon : MonoBehaviour
         weapon.SetActive(true);
         canAttack = false;
         isAttacking = true;
-        body.velocity = new Vector2(transform.localScale.x , transform.localScale.y);
         Debug.Log("Attacking");
         yield return new WaitForSeconds(duration);
         weapon.SetActive(false);
