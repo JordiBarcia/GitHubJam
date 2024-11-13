@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Windows;
 
-public class Ground_Enemy : MonoBehaviour
+public class Flying_Enemy : MonoBehaviour
 {
     GameObject player;
     [SerializeField] Rigidbody2D body;
+    public GameObject shootPoint;
+    public GameObject bullet;
 
     [Header("Attack Parameters")]
-    public GameObject weapon;
+    public float lineOfSite;
+    public float shootingRange;
     bool canAttack;
     bool isAttacking;
-    public float duration;
-    public float cooldown;
+    public float duration = 1f;
+    private float cooldown;
 
     [Header("Movement Parameters")]
     public float patrolDistance = 5f; // Distancia de patrullaje desde la posición inicial
@@ -44,20 +45,14 @@ public class Ground_Enemy : MonoBehaviour
     {
         float dist = Vector2.Distance(player.transform.position, this.transform.position);
 
-        if (dist <= 2 && canAttack)
+        if (dist > lineOfSite || dist > shootingRange)
         {
-            // Si el jugador está dentro del rango de ataque, atacar
-            StartCoroutine(Attack());
-        }
-        else if (dist > 10 && !isAttacking)
-        {
-            // Si el jugador está lejos, patrullar
             Patrol();
         }
-        else if (!isAttacking)
+        else if (dist <= shootingRange && cooldown < Time.time)
         {
-            // Si el jugador está en rango medio, moverse hacia él
-            MoveToPlayer();
+            Instantiate(bullet, shootPoint.transform.position, Quaternion.identity);
+            cooldown = Time.time + duration;
         }
     }
 
@@ -72,22 +67,6 @@ public class Ground_Enemy : MonoBehaviour
             // Alternar entre los puntos derecho e izquierdo
             currentPatrolPoint = (currentPatrolPoint == patrolPointRight) ? patrolPointLeft : patrolPointRight;
             Flip();
-        }
-    }
-
-    void MoveToPlayer()
-    {
-        Vector2 targetPosition = new Vector2(player.transform.position.x, transform.position.y);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-
-        // Girar hacia la dirección del jugador
-        if (transform.position.x < player.transform.position.x)
-        {
-            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
-        }
-        else if (transform.position.x > player.transform.position.x)
-        {
-            transform.localScale = new Vector2(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
     }
 
@@ -106,26 +85,6 @@ public class Ground_Enemy : MonoBehaviour
         }
     }
 
-
-
-    IEnumerator Attack()
-    {
-        yield return new WaitForSeconds(cooldown);
-        
-        weapon.SetActive(true);
-        canAttack = false;
-        isAttacking = true;
-        Debug.Log("Attacking");
-
-        yield return new WaitForSeconds(duration);
-
-        weapon.SetActive(false);
-        isAttacking = false;
-        Debug.Log("Not Attacking");
-
-        canAttack = true;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Weapon"))
@@ -133,5 +92,12 @@ public class Ground_Enemy : MonoBehaviour
             // Función de quitar vida aquí
             Destroy(gameObject);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, lineOfSite);
+        Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
 }
